@@ -21,6 +21,11 @@ for record in record_types:
         print(f'{domain} does not exist')
         sys.exit()
     except KeyboardInterrupt:
+        print("Oops, someone has typed ctrl+C")
         sys.exit()
     except Exception as e:
         print(f'Error retrieving {record} records: {e}')
+
+
+
+
