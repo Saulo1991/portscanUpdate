@@ -1,0 +1,5 @@
+www
+admin
+administrator
+painel
+webmail
