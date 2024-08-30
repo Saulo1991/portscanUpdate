@@ -1,28 +1,26 @@
 import dns.resolver
 import sys
 
+record_types = ['A', 'AAAA', 'NS', 'CNAME', 'MX', 'PTR', 'SOA', 'TXT']
 try:
     domain = sys.argv[1]
 except IndexError:
-    print(f'Usage: python dnsresolving.py <domainname>')
+    print('Syntax Error - python script.py <domainname>')
     sys.exit()
-    
-record_types = ['A', 'AAAA', 'NS', 'CNAME', 'TXT', 'SOA', 'PTR']
 
 for record in record_types:
     try:
         answer = dns.resolver.resolve(domain, record)
+        print(f'\nRecord: {record}')
         print('-' * 30)
-        print('[+] Domain: %s' % domain)
-        print('[+] Record: %s' % record)
         for server in answer:
-            print('[+] Server: %s' % (server.to_text()))
+            print(server.to_text() + '\n')
     except dns.resolver.NoAnswer:
         pass
     except dns.resolver.NXDOMAIN:
         print(f'{domain} does not exist')
-    except KeyboardInterrupt:
-        print(f'You clicked on ctrl + C')
-    except Exception as e:
-        print(f'General error: {e}')
         sys.exit()
+    except KeyboardInterrupt:
+        sys.exit()
+    except Exception as e:
+        print(f'Error retrieving {record} records: {e}')
